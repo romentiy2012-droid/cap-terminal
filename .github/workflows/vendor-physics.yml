@@ -1,6 +1,9 @@
 name: Vendor physics problem book
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/vendor-physics.yml'
 permissions:
   contents: write
 jobs:

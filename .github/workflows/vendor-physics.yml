@@ -1,0 +1,50 @@
+name: Vendor physics problem book
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Copy the original complete problem book
+        run: |
+          git clone --depth 1 https://github.com/KingX-oss859/zadachnik.git /tmp/zadachnik
+          mkdir -p docs/zadachnik dist/zadachnik
+          rsync -a --exclude=.git --exclude=WORKLOG.md --exclude=book --exclude=tools /tmp/zadachnik/ docs/zadachnik/
+          cp -a docs/zadachnik/. dist/zadachnik/
+          python3 - <<'PY'
+          from pathlib import Path
+          for folder in ('docs','dist'):
+              p=Path(folder)/'zadachnik/index.html'
+              text=p.read_text()
+              text=text.replace('</head>','<link rel="stylesheet" href="./fallout-override.css"></head>')
+              p.write_text(text)
+              css=Path(folder)/'zadachnik/fallout-override.css'
+              css.write_text("""/* Original book data and interactions remain unchanged. Fallout CRT palette. */
+          :root { color-scheme:dark; }
+          body,html,#desk { background:#07170d!important;color:#9dffad!important; }
+          .window,.window-body,.panel,.group-box,.taskbar,.title-bar,.menubar,.toolbar,.tabs,.tab { background:#0b2012!important;color:#a5ffad!important;border-color:#398e51!important; }
+          .title-bar { background:#123c20!important; }
+          button,input,select,textarea,.field { background:#102918!important;color:#b0ffb8!important;border-color:#428b52!important; }
+          a {color:#9dffad!important;}
+          """)
+          PY
+      - name: Use locally bundled book instead of remote frame
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for folder in ('docs','dist'):
+              p=Path(folder)/'index.html'
+              s=p.read_text().replace('src="https://kingx-oss859.github.io/zadachnik/"','src="./zadachnik/index.html"')
+              p.write_text(s)
+          PY
+      - name: Commit vendored library
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs dist
+          git diff --cached --quiet || (git commit -m "feat: bundle full physics library locally for offline access" && git push)

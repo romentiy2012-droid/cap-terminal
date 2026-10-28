@@ -1,7 +1,64 @@
-/* Original book data and interactions remain unchanged. Fallout CRT palette. */
-:root { color-scheme:dark; }
-body,html,#desk { background:#07170d!important;color:#9dffad!important; }
-.window,.window-body,.panel,.group-box,.taskbar,.title-bar,.menubar,.toolbar,.tabs,.tab { background:#0b2012!important;color:#a5ffad!important;border-color:#398e51!important; }
-.title-bar { background:#123c20!important; }
-button,input,select,textarea,.field { background:#102918!important;color:#b0ffb8!important;border-color:#428b52!important; }
-a {color:#9dffad!important;}
+/* CAP-OS: full Fallout skin over the original physics engine. No Windows chrome. */
+:root{
+ --face:#091b10;--hl:#285a32;--hl2:#173e24;--sh:#24502f;--dk:#041007;
+ --navy:#153e23;--title2:#0a2916;--desk:#08170d;--tip:#132b1b;
+ --fg:#b9ffc1;--fg2:#9eeaab;--fg3:#79a785;--blue:#a2f9ae;
+ --card:#0c2414;--fill:#102b19;--font:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ --raised:none;--pressed:none;--win:none;--sunken:none;--dither:none;
+ color-scheme:dark;
+}
+*,*:before,*:after{box-sizing:border-box}
+html,body{margin:0!important;width:100%!important;max-width:100%!important;height:100%!important;overflow:hidden!important;background:#08170d!important;color:#b9ffc1!important}
+body{font-family:var(--font)!important;font-size:14px!important;line-height:1.55!important;-webkit-font-smoothing:antialiased!important}
+#desk{position:fixed!important;inset:0!important;width:100%!important;max-width:100%!important;padding:0!important;background:#08170d!important;overflow:hidden!important}
+#app,#desk.maxed #app{position:relative!important;flex:1 1 auto!important;width:100%!important;max-width:100%!important;height:100%!important;min-height:0!important;margin:0!important}
+#desk.minimized #app{visibility:visible!important}
+.desk-icons,#taskbar,.start-menu,.title-bar,.title-bar-controls,.title-icon,.menubar,.status-bar,.status-bar-field,.tb-sep{display:none!important}
+.window,.screen,#screen-list,#screen-task{background:#08170d!important;color:#b9ffc1!important;box-shadow:none!important;border:0!important;border-radius:0!important;padding:0!important;max-width:100%!important}
+.screen{inset:0!important}
+#screen-task{display:none}
+#app.on-task #screen-task{display:flex!important}
+#app.on-task #screen-list{visibility:hidden}
+#app.on-task #screen-task{visibility:visible}
+.toolbar,.tabs{background:#0a2113!important;color:#b9ffc1!important;border:0!important;border-bottom:1px solid #2b6a3a!important;box-shadow:none!important;min-width:0!important;max-width:100%!important}
+.toolbar{padding:9px 10px!important;gap:8px!important;flex-wrap:wrap!important;height:auto!important}
+.tabs{display:flex!important;gap:4px!important;padding:7px 9px 0!important;overflow-x:auto!important}
+.tab{border:1px solid #2a693a!important;border-bottom:0!important;background:#0b2516!important;color:#9fdaa8!important;border-radius:5px 5px 0 0!important;box-shadow:none!important;padding:9px 10px!important;white-space:nowrap!important;min-width:0!important;font-size:12px!important}
+.tab.sel{background:#1b4827!important;color:#d2ffd5!important;box-shadow:inset 0 -2px #a5ffae!important}
+.btn,.field,.search,.kb-toggle,.clear,.tb-right button{border:1px solid #327745!important;border-radius:4px!important;background:#102b19!important;color:#c4ffd0!important;box-shadow:none!important;text-shadow:none!important;min-height:34px!important;padding:6px 10px!important}
+.btn:active,.tab:active,.row:active{background:#245c32!important}
+input,select,textarea,.search input{color:#d2ffd5!important;background:#0b2012!important;border:1px solid #367b45!important;border-radius:3px!important;min-width:0!important;max-width:100%!important}
+input::placeholder{color:#83ad89!important;opacity:1!important}
+.scroll,.listview,#task-scroll{background:#08170d!important;color:#b9ffc1!important;max-width:100%!important;min-width:0!important;overflow-x:hidden!important}
+.lv-head{background:#15331d!important;color:#b6fbc1!important;border-bottom:1px solid #347843!important;box-shadow:none!important}
+.lv-head span{color:#b6fbc1!important}
+.row,.group-h{background:transparent!important;color:#c2ffd0!important;border:0!important;border-bottom:1px solid #20452a!important;box-shadow:none!important;min-height:38px!important}
+.row.sel,.row:active,.group-h:active{background:#1d4929!important}
+.row .page,.group-h .cnt{color:#8bbf98!important}
+.row-title,.group-h .gt,.group-h span{color:#b9ffc1!important}
+.group-h.lvl1{background:#102b19!important}
+.group-h.lvl2{background:#0c2113!important}
+.tv-kids{border-color:#2a5e36!important}
+.group,.condition,.book,.answer,.book-ans,.note,.given-wrap,.figure,.cond,.bk-table,.book table,.book th,.book td,.cond table,.cond th,.cond td{background:#0b2113!important;color:#c4ffd0!important;border-color:#346e42!important;box-shadow:none!important}
+.group{margin:10px 8px!important;border:1px solid #326b3e!important;border-radius:5px!important;padding:12px!important;min-width:0!important}
+.group>legend{background:#143a20!important;color:#c6ffce!important;border:1px solid #346e42!important;padding:3px 8px!important}
+.group p,.condition p,.book p,.note,.t-title,.t-head,.find,.book-ans,.answer,.cond{color:#c7ffd0!important}
+.given-grid{border-color:#376e43!important;background:#0a1f12!important;max-width:100%!important}
+.given-grid>div,.given-grid>.gh,.given-grid>div:not(.gh){background:#0c2616!important;color:#c7ffd0!important;border-color:#346e42!important}
+.given-grid>.gh{background:#173e23!important}
+.mathblock,.katex-display,[data-tex],.bk-math{background:transparent!important;color:#d2ffd5!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important}
+.katex,.katex *{color:inherit!important}
+.katex-display{max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important}
+.figure svg,.figure.scan img,.bk-fig img{max-width:100%!important;height:auto!important}
+.figure svg{background:#e8f2e9!important;border-radius:3px!important}
+.figure svg text,.figure svg .ln,.figure svg .wire,.figure svg .rod{color:#142b18!important}
+.book .bk-h,.book-ans .ba-h,.t-head,.t-num{color:#d2ffd5!important}
+a,a.xlink{color:#a9ffb8!important}
+mark{background:#2d6b3b!important;color:#e5ffdf!important}
+.progress,.progress-bar{background:#143c22!important;border:1px solid #448552!important;box-shadow:none!important}
+.progress-bar{background:#7de69a!important}
+#desk .dialog,#desk .modal,.dialog,.modal{background:#102b19!important;color:#c4ffd0!important;border:1px solid #438753!important;box-shadow:0 10px 45px #000a!important;max-width:calc(100vw - 20px)!important}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#0b1e11}
+::-webkit-scrollbar-thumb{background:#397f49;border-radius:4px;box-shadow:none}
+@media(max-width:600px){body{font-size:13px!important}.toolbar{padding:7px!important}.tb-label{display:none!important}.group{margin:7px 5px!important;padding:9px!important}.row-title{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important}.tab{font-size:11px!important;padding:8px 7px!important}}

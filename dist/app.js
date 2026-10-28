@@ -12,20 +12,4 @@ $('#editorForm').onsubmit=e=>{e.preventDefault();const title=$('#title').value.t
 function network(){$('#network').textContent=navigator.onLine?'● СИСТЕМА АКТИВНА':'● АВТОНОМНЫЙ РЕЖИМ'}window.addEventListener('online',network);window.addEventListener('offline',network);function clock(){$('#clock').textContent=new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}clock();setInterval(clock,30000);network();render();if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>$('#offline').textContent='Офлайн-кэш подготовлен. Квесты и журнал доступны без сети после успешной первой загрузки. На хостинге вход в аккаунт иногда может потребовать интернет.').catch(()=>$('#offline').textContent='Офлайн-кэш недоступен. Пока открывай приложение с интернетом.')}else $('#offline').textContent='Этот браузер не поддерживает офлайн-кэш.';
 
 
-/* Physics catalog: safe empty state until source data is available. */
-const PHYSICS_FAVORITES_KEY='cap-physics-favorites-v1';
-let physicsOnlyFavorites=false;
-let physicsItems=Array.isArray(window.CAP_PHYSICS_SAMPLE)?window.CAP_PHYSICS_SAMPLE:[];
-try{const saved=JSON.parse(localStorage.getItem(PHYSICS_FAVORITES_KEY)||'[]');if(Array.isArray(saved))window.physicsFavorites=new Set(saved.filter(x=>typeof x==='string'));else window.physicsFavorites=new Set()}catch{window.physicsFavorites=new Set()}
-function renderPhysics(){
- const list=$('#physicsList');if(!list)return;
- const query=$('#physicsSearch').value.trim().toLocaleLowerCase('ru');
- const items=physicsItems.filter(x=>(!physicsOnlyFavorites||window.physicsFavorites.has(x.id))&&(!query||[x.number,x.topic,x.text].join(' ').toLocaleLowerCase('ru').includes(query)));
- list.replaceChildren();
- if(!items.length){list.append(node('div',physicsItems.length?'По выбранному запросу ничего не найдено.':'Архив задач пока пуст. Ожидается импорт материалов из Google Drive.','empty'));return}
- items.forEach(x=>{const card=node('article','','note');card.append(node('h2',x.number||'Задача'),node('p',x.text||''));const saved=window.physicsFavorites.has(x.id);card.append(button(saved?'★ Убрать закладку':'☆ В закладки',()=>{if(saved)window.physicsFavorites.delete(x.id);else window.physicsFavorites.add(x.id);try{localStorage.setItem(PHYSICS_FAVORITES_KEY,JSON.stringify([...window.physicsFavorites]))}catch{toast('Не удалось сохранить закладки')}renderPhysics()}));list.append(card)})
-}
-$('#physicsSearch').addEventListener('input',renderPhysics);
-$('#physicsAll').onclick=()=>{physicsOnlyFavorites=false;$('#physicsAll').classList.add('active');$('#physicsFavorites').classList.remove('active');renderPhysics()};
-$('#physicsFavorites').onclick=()=>{physicsOnlyFavorites=true;$('#physicsFavorites').classList.add('active');$('#physicsAll').classList.remove('active');renderPhysics()};
-renderPhysics();
+/* Full physics book is embedded in a separate, isolated frame; quest data remains untouched. */

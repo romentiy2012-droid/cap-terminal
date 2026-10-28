@@ -1,5 +1,5 @@
 /* Офлайн-кэш. При добавлении задач увеличьте VERSION — телефон подтянет новое. */
-const VERSION = 'v10';
+const VERSION = 'cap6';
 const CACHE = 'zadachnik-' + VERSION;
 importScripts('sw-assets.js');   // self.FIGURE_ASSETS — картинки книги, список пишет tools/build_theory.py
 const ASSETS = [
@@ -31,6 +31,7 @@ const ASSETS = [
   'manifest.webmanifest',
   'modem.js',
   'styles.css',
+  'fallout-override.css',
   'vendor/katex/fonts/KaTeX_AMS-Regular.woff2',
   'vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2',
   'vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2',
@@ -58,7 +59,7 @@ self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('zadachnik-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 /* Сначала сеть (чтобы новые задачи появлялись сразу), без сети — из кэша.
    no-cache: браузер сверяет файл с сервером, а не берёт его из HTTP-кэша —

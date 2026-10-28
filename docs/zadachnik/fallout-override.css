@@ -1,0 +1,7 @@
+/* Original book data and interactions remain unchanged. Fallout CRT palette. */
+:root { color-scheme:dark; }
+body,html,#desk { background:#07170d!important;color:#9dffad!important; }
+.window,.window-body,.panel,.group-box,.taskbar,.title-bar,.menubar,.toolbar,.tabs,.tab { background:#0b2012!important;color:#a5ffad!important;border-color:#398e51!important; }
+.title-bar { background:#123c20!important; }
+button,input,select,textarea,.field { background:#102918!important;color:#b0ffb8!important;border-color:#428b52!important; }
+a {color:#9dffad!important;}

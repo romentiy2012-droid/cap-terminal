@@ -15,7 +15,7 @@ function network(){$('#network').textContent=navigator.onLine?'● СИСТЕМ�
 /* Physics catalog: safe empty state until source data is available. */
 const PHYSICS_FAVORITES_KEY='cap-physics-favorites-v1';
 let physicsOnlyFavorites=false;
-let physicsItems=[];
+let physicsItems=Array.isArray(window.CAP_PHYSICS_SAMPLE)?window.CAP_PHYSICS_SAMPLE:[];
 try{const saved=JSON.parse(localStorage.getItem(PHYSICS_FAVORITES_KEY)||'[]');if(Array.isArray(saved))window.physicsFavorites=new Set(saved.filter(x=>typeof x==='string'));else window.physicsFavorites=new Set()}catch{window.physicsFavorites=new Set()}
 function renderPhysics(){
  const list=$('#physicsList');if(!list)return;
